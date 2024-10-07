@@ -1,10 +1,11 @@
 package br.com.sonne.cash_flux.shared.DTO;
 
-import br.com.sonne.cash_flux.domain.Categoria;
+import br.com.sonne.cash_flux.domain.Folha;
+import br.com.sonne.cash_flux.domain.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -12,8 +13,10 @@ public class GastoDTO {
 
     private String descricao;
     private Double valor;
-    private Categoria categoria;  // O enum Categoria é utilizado aqui
-    private UUID usuarioId;
-    private UUID folhaId;
-
+    private String categoria;
+    private Usuario usuario;
+    private Folha folha;
+    private String tipo;
+    private LocalDateTime dataHoraCriacao;
+    private LocalDateTime dataHoraAtualizacao;
 }

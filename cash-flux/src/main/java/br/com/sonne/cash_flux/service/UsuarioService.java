@@ -1,10 +1,21 @@
 package br.com.sonne.cash_flux.service;
 
-import br.com.sonne.cash_flux.shared.DTO.request.UsuarioRequest;
 import br.com.sonne.cash_flux.domain.Usuario;
-import jakarta.mail.MessagingException;
+import br.com.sonne.cash_flux.shared.DTO.request.UsuarioCadastroRequestDTO;
+import br.com.sonne.cash_flux.shared.DTO.response.UsuarioResponseDTO;
 
 public interface UsuarioService {
 
-    Usuario criarUsuario(UsuarioRequest usuarioRequest) throws MessagingException;
+  UsuarioResponseDTO criarUsuario(UsuarioCadastroRequestDTO usuarioRequestDTO);
+
+  Usuario carregarUsuarioDaSessao();
+
+  Usuario obterLoginUsuarioLogadoParaPesquisa();
+
+  Usuario consultarPorEmail(String email);
+
+  // Usuario obterUsuarioLogado();
+
+  // Usuario consultarPorEmail(String email);
+
 }

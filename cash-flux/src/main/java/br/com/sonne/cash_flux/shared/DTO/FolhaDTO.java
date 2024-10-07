@@ -1,14 +1,20 @@
 package br.com.sonne.cash_flux.shared.DTO;
 
+import br.com.sonne.cash_flux.domain.Gasto;
+import lombok.Getter;
+import lombok.Setter;
 
-import br.com.sonne.cash_flux.domain.Mes;
-import lombok.Data;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 public class FolhaDTO {
 
-    private Mes mes;
-    private List<GastoDTO> gastos;
+    private String mes;
+    private String descricao;
+    private List<Gasto> gastos;
+    private String tipo;
+    private LocalDateTime dataHoraAtualizacao;
+    private LocalDateTime dataHoraCriacao;
 }

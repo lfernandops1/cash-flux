@@ -50,10 +50,4 @@ public class GastoController {
     Gasto gasto = gastoService.atualizarGasto(id, gastoAtualizado);
     return new ResponseEntity<>(gasto, HttpStatus.OK);
   }
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> deletarGasto(@PathVariable UUID id) {
-    gastoService.deletarGasto(id);
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-  }
 }

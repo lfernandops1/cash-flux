@@ -1,0 +1,27 @@
+Documentação Geral:
+
+ Explicar que esta classe representa a entidade de usuário no sistema.
+ Especificar que a classe implementa a interface UserDetails, necessária para a integração com o Spring Security.
+
+Propriedades:
+
+ Descrever cada campo com seu propósito.
+ Incluir explicações adicionais sobre mapeamento JPA, como:
+ Uso de UUID como identificador único.
+ Papel de Role para definir o nível de acesso.
+ Anotação @Temporal para datas de criação e atualização.
+
+Construtor:
+
+ Documentar o construtor para deixar claros os parâmetros obrigatórios para a criação de um usuário.
+
+Métodos de Sobrescrita:
+
+ Explicar métodos como equals e hashCode para mostrar como a igualdade é definida pela entidade, garantindo consistência.
+
+Métodos de UserDetails:
+
+ Descrever os métodos implementados da interface UserDetails, indicando:
+ Como as autoridades são definidas.
+ Como as credenciais são tratadas.
+ Como a ativação da conta é gerenciada (não expirando ou sendo bloqueada).

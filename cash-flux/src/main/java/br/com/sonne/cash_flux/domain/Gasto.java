@@ -44,6 +44,10 @@ public class Gasto {
   @Column(name = "data_hora_atualizacao")
   private LocalDateTime dataHoraAtualizacao;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "data_hora_exclusao")
+  private LocalDateTime dataHoraExclusao;
+
   @Column(name = "tipo")
   private String tipo;
 

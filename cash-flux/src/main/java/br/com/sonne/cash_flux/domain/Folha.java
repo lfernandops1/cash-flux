@@ -48,6 +48,10 @@ public class Folha {
   @Column(name = "data_hora_atualizacao")
   private LocalDateTime dataHoraAtualizacao;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "data_hora_exclusao")
+  private LocalDateTime dataHoraExclusao;
+
   @Override
   public final boolean equals(Object o) {
     if (this == o) return true;

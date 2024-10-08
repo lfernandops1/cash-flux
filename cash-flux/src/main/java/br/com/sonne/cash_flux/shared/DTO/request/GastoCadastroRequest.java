@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class GastoCadastroRequest extends GastoDTO {
   private String descricao;
-  private String valor;
+  private Double valor;
   private String tipo;
   private String categoria;
 }

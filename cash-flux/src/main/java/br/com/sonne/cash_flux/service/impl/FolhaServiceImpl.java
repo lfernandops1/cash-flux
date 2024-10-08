@@ -44,37 +44,6 @@ public class FolhaServiceImpl implements FolhaService {
     return folha;
   }
 
-  //    public Folha atualizarFolha(UUID folhaId, List<GastoDTO> gastoDTOs) {
-  //        Folha folha =
-  //                folhaRepository
-  //                        .findById(folhaId)
-  //                        .orElseThrow(() -> new ResourceNotFoundException("Folha não
-  // encontrada"));
-  //        List<Gasto> gastos =
-  //                gastoDTOs.stream()
-  //                        .map(
-  //                                g -> {
-  //                                    Gasto gasto = new Gasto();
-  //                                    gasto.setDescricao(g.getDescricao());
-  //                                    gasto.setValor(g.getValor());
-  //                                    gasto.setFolha(folha);
-  //                                    gasto.setCategoria(g.getCategoria());
-  //                                    Usuario usuario =
-  //                                            usuarioRepository
-  //                                                    .findById(g.getUsuarioId())
-  //                                                    .orElseThrow(
-  //                                                            () -> new
-  // ResourceNotFoundException("Usuário não encontrado"));
-  //                                    gasto.setUsuario(usuario);
-  //
-  //                                    return gasto;
-  //                                })
-  //                        .collect(Collectors.toList());
-  //        gastoRepository.saveAll(gastos);
-  //        folha.setGastos(gastos);
-  //        return folhaRepository.save(folha);
-  //    }
-
   public List<Folha> listarTodasFolhasUsuario(UUID idUsuario) {
     List<Folha> folhas = folhaRepository.findByUsuarioId(idUsuario);
     if (folhas != null && !folhas.isEmpty()) {

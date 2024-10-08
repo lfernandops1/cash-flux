@@ -8,9 +8,7 @@ import br.com.sonne.cash_flux.repository.GastoRepository;
 import br.com.sonne.cash_flux.service.GastoService;
 import br.com.sonne.cash_flux.service.UsuarioService;
 import br.com.sonne.cash_flux.shared.DTO.FolhaDTO;
-import br.com.sonne.cash_flux.shared.DTO.request.GastoRequestDTO;
 import br.com.sonne.cash_flux.shared.enums.Tipo;
-import br.com.sonne.cash_flux.shared.parse.GastoParse;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -59,10 +57,6 @@ public class GastoServiceImpl implements GastoService {
           return gastoRepository.save(gasto);
         },
         "Erro ao cadastrar gasto avulso");
-  }
-
-  private Gasto obterGasto(GastoRequestDTO gastoRequestDTO) {
-    return new GastoParse().toEntity(gastoRequestDTO);
   }
 
   @Override

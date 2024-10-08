@@ -8,6 +8,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UsuarioRequestDTO extends UsuarioDTO {
-
   private UUID id;
 }

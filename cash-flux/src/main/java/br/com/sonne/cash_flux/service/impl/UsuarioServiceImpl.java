@@ -2,7 +2,6 @@ package br.com.sonne.cash_flux.service.impl;
 
 import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.ERRO_AO_ATUALIZAR_DADOS_USUARIO;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.*;
-import static br.com.sonne.cash_flux.shared.util.SecurityUtil.obterLoginUsuarioLogado;
 import static br.com.sonne.cash_flux.shared.util.SecurityUtil.obterUsuarioLogado;
 import static br.com.sonne.cash_flux.shared.util.ValidatorUsuarioUtil.validacaoFormatoEmailETelefone;
 import static br.com.sonne.cash_flux.shared.util.ValidatorUsuarioUtil.validacaoFormatoEmailETelefoneParaAtualizar;
@@ -139,16 +138,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         throw new RuntimeException("Erro ao acessar campo: " + campo.getName(), e);
       }
     }
-  }
-
-  /**
-   * Obtém o usuário logado para uso em pesquisas.
-   *
-   * @return O usuário logado.
-   */
-  @Override
-  public Usuario obterLoginUsuarioLogadoParaPesquisa() {
-    return consultarPorEmail(obterLoginUsuarioLogado());
   }
 
   /**

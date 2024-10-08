@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrosDTO {
-  List<ErroDTO> erros;
+  private List<ErroDTO> erros;
 }

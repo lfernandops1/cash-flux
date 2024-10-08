@@ -12,12 +12,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class UsuarioParse implements Parse<UsuarioRequestDTO, Usuario, UsuarioResponseDTO> {
-  //    @Override
-  //    public Usuario toEntity(UsuarioRequestDTO requestDTO) {
-  //        Usuario usuario = new Usuario();
-  //        usuario.setSenha(requestDTO.getSenha());
-  //        return usuario;
-  //    }
 
   public Usuario toEntityCadastro(UsuarioCadastroRequestDTO requestDTO) {
     Usuario usuario = new Usuario();

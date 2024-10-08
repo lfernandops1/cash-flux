@@ -23,14 +23,6 @@ public interface UsuarioService {
   Usuario carregarUsuarioDaSessao();
 
   /**
-   * Consulta um usuário pelo email.
-   *
-   * @param email o email do usuário a ser consultado.
-   * @return o usuário encontrado.
-   */
-  Usuario consultarPorEmail(String email);
-
-  /**
    * Consulta um usuário pelo seu ID.
    *
    * @param uuid o ID do usuário a ser consultado.

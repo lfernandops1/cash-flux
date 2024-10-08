@@ -9,8 +9,6 @@ public interface FolhaService {
 
   Folha criarFolha(FolhaRequestDTO folhaDTO);
 
-  // Folha atualizarFolha(UUID folhaId, List<GastoDTO> gastoDTOs);
-
   List<Folha> listarTodasFolhasUsuario(UUID uuid);
 
   List<Folha> listarPorTipo(String tipo);

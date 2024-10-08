@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public interface GastoService {
 
-  // Gasto criarGasto(Gasto gasto);
-
   Gasto criarGastoAvulso(Gasto gasto);
 
   void criarGastosEmFolha(FolhaDTO folhaDTO, Folha folha);

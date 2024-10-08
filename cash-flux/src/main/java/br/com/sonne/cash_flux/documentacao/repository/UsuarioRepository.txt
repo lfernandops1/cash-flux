@@ -1,0 +1,17 @@
+Interface UsuarioRepository:
+Descreve que essa interface é um repositório JPA (Java Persistence API) para a entidade Usuario. A interface herda de JpaRepository, o que significa que ela já possui um conjunto de métodos padrão para realizar operações CRUD sem precisar de implementação explícita.
+
+Anotação @Repository:
+Indica que esta interface é um componente Spring que lida com a persistência de dados e será automaticamente detectada pelo mecanismo de injeção de dependência do Spring.
+
+Métodos Customizados:
+findByEmail(String email): Este método é usado para encontrar um usuário com base em seu email. O retorno é um Optional<Usuario>, o que permite tratar o caso em que o usuário não é encontrado de maneira segura, sem o risco de NullPointerException.
+O método é documentado explicando o parâmetro de entrada (email) e o retorno (um Optional que pode conter o usuário ou estar vazio).
+findByTelefone(String telefone): Similar ao método findByEmail, este método busca um usuário pelo seu número de telefone. A documentação segue a mesma estrutura, explicando o parâmetro de entrada (telefone) e o retorno (Optional<Usuario>).
+
+Herdando de JpaRepository:
+A interface UsuarioRepository herda de JpaRepository<Usuario, UUID>, o que significa que já tem acesso a métodos prontos, como:
+save(Usuario usuario) — para salvar ou atualizar um usuário.
+findById(UUID id) — para buscar um usuário pelo seu identificador.
+deleteById(UUID id) — para deletar um usuário pelo seu identificador.
+findAll() — para listar todos os usuários.

@@ -1,0 +1,30 @@
+Classe UsuarioServiceImpl:
+
+Implementa a interface UsuarioService, fornecendo a lógica de negócios relacionada à manipulação de usuários no sistema.
+
+Anotações:
+
+@Service: Indica que esta classe é um componente de serviço, responsável pela lógica de negócios, sendo automaticamente gerenciada pelo Spring.
+@Transactional: Garante que as operações com banco de dados sejam executadas em transações, o que significa que as alterações só serão confirmadas se todas as operações forem bem-sucedidas.
+
+Métodos Públicos:
+
+consultarUsuarioPorId(UUID id): Busca um usuário pelo ID. Lança uma exceção caso o usuário não seja encontrado.
+
+criarUsuario(UsuarioCadastroRequestDTO usuario): Cria um novo usuário com validação prévia dos dados.
+
+alterarSenhaUsuario(String senha): Altera a senha do usuário logado.
+
+atualizar(Usuario usuario, UUID id): Atualiza os dados do usuário informado, mantendo os campos existentes que não forem nulos.
+
+obterLoginUsuarioLogadoParaPesquisa() e carregarUsuarioDaSessao(): Obtêm os dados do usuário logado para uso em outras operações.
+
+Métodos Privados:
+
+atualizarCamposNaoNulos(): Utiliza reflexão para copiar os campos não nulos do objeto de origem para o de destino.
+
+validarSeEmailJaCadastrado(String email) e validarSeTelefoneJaCadastrado(String telefone): Verificam se o email ou telefone já estão cadastrados, lançando exceções em caso positivo.
+
+obterUsuario(UsuarioCadastroRequestDTO usuarioCadastroRequestDTO): Converte o DTO de cadastro em uma entidade Usuario com a senha criptografada.
+
+Tratamento de Exceções: A classe utiliza métodos como executarComandoComTratamentoErroComMensagem para encapsular operações e fornecer tratamento de erros centralizado, com mensagens específicas de validação e persistência.

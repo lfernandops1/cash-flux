@@ -24,6 +24,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementação do serviço para gerenciamento de usuários.
+ *
+ * <p>A classe implementa a interface {@link UsuarioService} e fornece funcionalidades para criação,
+ * atualização, consulta e manipulação de dados do usuário, além de operações de validação e
+ * alteração de senha.
+ *
+ * <p>As operações de persistência utilizam o repositório {@link UsuarioRepository} e a criptografia
+ * de senhas é tratada pela implementação de {@link PasswordEncoder}.
+ */
 @Service
 @Transactional
 public class UsuarioServiceImpl implements UsuarioService {
@@ -32,10 +42,24 @@ public class UsuarioServiceImpl implements UsuarioService {
 
   private final PasswordEncoder passwordEncoder;
 
+  /**
+   * Construtor da classe, que recebe o {@link PasswordEncoder} necessário para a criptografia de
+   * senhas.
+   *
+   * @param passwordEncoder Implementação de {@link PasswordEncoder} usada para criptografar senhas
+   *     de usuários.
+   */
   public UsuarioServiceImpl(PasswordEncoder passwordEncoder) {
     this.passwordEncoder = passwordEncoder;
   }
 
+  /**
+   * Consulta um {@link Usuario} pelo seu identificador único (UUID).
+   *
+   * @param id Identificador único do usuário.
+   * @return O usuário encontrado ou lança uma exceção {@link ValidacaoNotFoundException} se o
+   *     usuário não for encontrado.
+   */
   @Override
   public Usuario consultarUsuarioPorId(UUID id) {
     return usuarioRepository
@@ -46,6 +70,12 @@ public class UsuarioServiceImpl implements UsuarioService {
                     EValidacao.USUARIO_NAO_ENCONTRADO_POR_ID, id.toString()));
   }
 
+  /**
+   * Cria um novo usuário com base nos dados fornecidos.
+   *
+   * @param usuario Objeto de solicitação contendo as informações do usuário a ser cadastrado.
+   * @return DTO de resposta contendo os dados do usuário criado.
+   */
   @Override
   public UsuarioResponseDTO criarUsuario(UsuarioCadastroRequestDTO usuario) {
     validacoesUsuario(usuario);
@@ -53,6 +83,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         () -> usuarioRepository.save(obterUsuario(usuario)), "Erro", new UsuarioParse());
   }
 
+  /**
+   * Altera a senha do usuário logado.
+   *
+   * @param senha A nova senha a ser configurada para o usuário.
+   */
   @Override
   public void alterarSenhaUsuario(String senha) {
     executarComandoComTratamentoSemRetorno(
@@ -63,6 +98,13 @@ public class UsuarioServiceImpl implements UsuarioService {
         });
   }
 
+  /**
+   * Atualiza os dados de um usuário com base no ID informado.
+   *
+   * @param usuario Objeto contendo os novos dados do usuário.
+   * @param id Identificador único do usuário a ser atualizado.
+   * @return O usuário atualizado.
+   */
   @Override
   public Usuario atualizar(Usuario usuario, UUID id) {
     validacaoFormatoEmailETelefoneParaAtualizar(usuario);
@@ -77,6 +119,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         ERRO_AO_ATUALIZAR_DADOS_USUARIO);
   }
 
+  /**
+   * Atualiza os campos não nulos de um objeto de origem em outro de destino.
+   *
+   * @param origem Objeto de origem contendo os valores novos.
+   * @param destino Objeto de destino que será atualizado.
+   */
   private void atualizarCamposNaoNulos(Object origem, Object destino) {
     Field[] campos = origem.getClass().getDeclaredFields();
 
@@ -93,11 +141,23 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
   }
 
+  /**
+   * Obtém o usuário logado para uso em pesquisas.
+   *
+   * @return O usuário logado.
+   */
   @Override
   public Usuario obterLoginUsuarioLogadoParaPesquisa() {
     return consultarPorEmail(obterLoginUsuarioLogado());
   }
 
+  /**
+   * Consulta um {@link Usuario} pelo seu email.
+   *
+   * @param email Email do usuário a ser consultado.
+   * @return O usuário encontrado ou lança uma exceção {@link ValidacaoException} se o usuário não
+   *     for encontrado.
+   */
   @Override
   public Usuario consultarPorEmail(String email) {
     return executarComandoComTratamentoErroComMensagem(
@@ -110,20 +170,42 @@ public class UsuarioServiceImpl implements UsuarioService {
         "Erro ao consultar por email");
   }
 
+  /**
+   * Obtém o usuário logado da sessão atual.
+   *
+   * @return O usuário logado.
+   */
   public Usuario carregarUsuarioDaSessao() {
     return obterUsuarioLogado();
   }
 
+  /**
+   * Valida se o email já está cadastrado no sistema.
+   *
+   * @param email Email a ser verificado.
+   */
   private void validarSeEmailJaCadastrado(String email) {
     if (usuarioRepository.findByEmail(email).isPresent())
       throw new ValidacaoException(EValidacao.EMAIL_JA_CADASTRADO, email);
   }
 
+  /**
+   * Valida se o telefone já está cadastrado no sistema.
+   *
+   * @param telefone Número de telefone a ser verificado.
+   */
   private void validarSeTelefoneJaCadastrado(String telefone) {
     if (usuarioRepository.findByTelefone(telefone).isPresent())
       throw new ValidacaoException(EValidacao.TELEFONE_JA_CADASTRADO, telefone);
   }
 
+  /**
+   * Converte os dados de cadastro de um usuário em uma entidade {@link Usuario} com a senha
+   * criptografada.
+   *
+   * @param usuarioCadastroRequestDTO Dados de cadastro do usuário.
+   * @return A entidade {@link Usuario} pronta para ser persistida no banco.
+   */
   private Usuario obterUsuario(UsuarioCadastroRequestDTO usuarioCadastroRequestDTO) {
     return new UsuarioParse()
         .toEntityComSenha(
@@ -131,6 +213,11 @@ public class UsuarioServiceImpl implements UsuarioService {
             passwordEncoder.encode(usuarioCadastroRequestDTO.getSenha()));
   }
 
+  /**
+   * Realiza validações nos dados do usuário antes do cadastro.
+   *
+   * @param usuarioCadastroRequestDTO Dados do usuário a serem validados.
+   */
   private void validacoesUsuario(UsuarioCadastroRequestDTO usuarioCadastroRequestDTO) {
     validacaoFormatoEmailETelefone(usuarioCadastroRequestDTO);
     validarSeEmailJaCadastrado(usuarioCadastroRequestDTO.getEmail());

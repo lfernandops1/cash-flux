@@ -1,0 +1,22 @@
+Classe UsuarioController: Explicação do propósito da classe como controlador REST responsável por gerenciar operações relacionadas a usuários.
+
+@RestController: Define a classe como um controlador REST.
+@RequestMapping("/api/usuarios"): Define que todos os endpoints nesta classe terão o caminho base /api/usuarios.
+Construtor:
+
+O construtor injeta a dependência de UsuarioParse, explicando seu propósito.
+Método criarUsuario:
+
+O método é documentado com sua funcionalidade (criação de usuário), explicando o uso da anotação @PostMapping.
+Parâmetro: Descreve o DTO de entrada (UsuarioCadastroRequestDTO).
+Retorno: Explica o retorno de ResponseEntity com o status 201 Created.
+Método alterarSenhaUsuario:
+
+Explicação do endpoint para alterar a senha do usuário usando @PatchMapping.
+Parâmetro: Descreve o DTO de entrada para a senha.
+Retorno: Explica o retorno de ResponseEntity com o status 204 No Content.
+Método atualizarUsuario:
+
+Explica o uso de @PutMapping para atualizar as informações de um usuário.
+Parâmetro: Descreve o DTO de entrada e o ID do usuário.
+Retorno: Explica o retorno de ResponseEntity com o status 200 OK.

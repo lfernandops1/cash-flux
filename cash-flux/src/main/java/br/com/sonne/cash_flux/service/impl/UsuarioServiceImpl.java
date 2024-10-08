@@ -141,25 +141,6 @@ public class UsuarioServiceImpl implements UsuarioService {
   }
 
   /**
-   * Consulta um {@link Usuario} pelo seu email.
-   *
-   * @param email Email do usuário a ser consultado.
-   * @return O usuário encontrado ou lança uma exceção {@link ValidacaoException} se o usuário não
-   *     for encontrado.
-   */
-  @Override
-  public Usuario consultarPorEmail(String email) {
-    return executarComandoComTratamentoErroComMensagem(
-        () ->
-            usuarioRepository
-                .findByEmail(email)
-                .orElseThrow(
-                    () ->
-                        new ValidacaoException(EValidacao.USUARIO_NAO_ENCONTRADO_POR_EMAIL, email)),
-        "Erro ao consultar por email");
-  }
-
-  /**
    * Obtém o usuário logado da sessão atual.
    *
    * @return O usuário logado.

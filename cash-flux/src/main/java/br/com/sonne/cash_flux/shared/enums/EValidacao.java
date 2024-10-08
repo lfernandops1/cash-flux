@@ -12,6 +12,7 @@ public enum EValidacao implements IEnumLabel<EValidacao> {
   EMAIL_NAO_ENCONTRADO(-4),
   USUARIO_NAO_ENCONTRADO_POR_ID(-5),
   USUARIO_NAO_ENCONTRADO_POR_EMAIL(-8),
+  USUARIO_DESATIVADO(-9),
   NAO_IDENTIFICADO(-999);
   private final Integer codigo;
 

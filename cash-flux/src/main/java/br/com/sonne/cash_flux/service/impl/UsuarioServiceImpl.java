@@ -1,11 +1,14 @@
 package br.com.sonne.cash_flux.service.impl;
 
-import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoErroComMensagem;
-import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoErroComMensagemComParseResource;
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.ERRO_AO_ATUALIZAR_DADOS_USUARIO;
+import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.*;
 import static br.com.sonne.cash_flux.shared.util.SecurityUtil.obterLoginUsuarioLogado;
 import static br.com.sonne.cash_flux.shared.util.SecurityUtil.obterUsuarioLogado;
+import static br.com.sonne.cash_flux.shared.util.ValidatorUsuarioUtil.validacaoFormatoEmailETelefone;
+import static br.com.sonne.cash_flux.shared.util.ValidatorUsuarioUtil.validacaoFormatoEmailETelefoneParaAtualizar;
 
 import br.com.sonne.cash_flux.config.exception.ValidacaoException;
+import br.com.sonne.cash_flux.config.exception.ValidacaoNotFoundException;
 import br.com.sonne.cash_flux.domain.Usuario;
 import br.com.sonne.cash_flux.repository.UsuarioRepository;
 import br.com.sonne.cash_flux.service.UsuarioService;
@@ -14,6 +17,9 @@ import br.com.sonne.cash_flux.shared.DTO.response.UsuarioResponseDTO;
 import br.com.sonne.cash_flux.shared.enums.EValidacao;
 import br.com.sonne.cash_flux.shared.parse.UsuarioParse;
 import jakarta.transaction.Transactional;
+import java.lang.reflect.Field;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,13 +37,60 @@ public class UsuarioServiceImpl implements UsuarioService {
   }
 
   @Override
-  public UsuarioResponseDTO criarUsuario(UsuarioCadastroRequestDTO usuarioCadastroRequestDTO) {
-    validarSeEmailJaCadastrado(usuarioCadastroRequestDTO.getEmail());
-    validarSeTelefoneJaCadastrado(usuarioCadastroRequestDTO.getTelefone());
+  public Usuario consultarUsuarioPorId(UUID id) {
+    return usuarioRepository
+        .findById(id)
+        .orElseThrow(
+            () ->
+                new ValidacaoNotFoundException(
+                    EValidacao.USUARIO_NAO_ENCONTRADO_POR_ID, id.toString()));
+  }
+
+  @Override
+  public UsuarioResponseDTO criarUsuario(UsuarioCadastroRequestDTO usuario) {
+    validacoesUsuario(usuario);
     return executarComandoComTratamentoErroComMensagemComParseResource(
-        () -> usuarioRepository.save(obterUsuario(usuarioCadastroRequestDTO)),
-        "Erro",
-        new UsuarioParse());
+        () -> usuarioRepository.save(obterUsuario(usuario)), "Erro", new UsuarioParse());
+  }
+
+  @Override
+  public void alterarSenhaUsuario(String senha) {
+    executarComandoComTratamentoSemRetorno(
+        () -> {
+          Usuario usuario = obterUsuarioLogado();
+          usuario.setSenha(passwordEncoder.encode(senha));
+          usuarioRepository.save(usuario);
+        });
+  }
+
+  @Override
+  public Usuario atualizar(Usuario usuario, UUID id) {
+    validacaoFormatoEmailETelefoneParaAtualizar(usuario);
+    return executarComandoComTratamentoErroComMensagem(
+        () -> {
+          Usuario usuarioAlterado = consultarUsuarioPorId(id);
+          atualizarCamposNaoNulos(usuario, usuarioAlterado);
+          usuarioAlterado.setDataHoraAtualizacao(LocalDateTime.now());
+
+          return usuarioRepository.save(usuarioAlterado);
+        },
+        ERRO_AO_ATUALIZAR_DADOS_USUARIO);
+  }
+
+  private void atualizarCamposNaoNulos(Object origem, Object destino) {
+    Field[] campos = origem.getClass().getDeclaredFields();
+
+    for (Field campo : campos) {
+      campo.setAccessible(true);
+      try {
+        Object valor = campo.get(origem);
+        if (valor != null) {
+          campo.set(destino, valor);
+        }
+      } catch (IllegalAccessException e) {
+        throw new RuntimeException("Erro ao acessar campo: " + campo.getName(), e);
+      }
+    }
   }
 
   @Override
@@ -76,5 +129,11 @@ public class UsuarioServiceImpl implements UsuarioService {
         .toEntityComSenha(
             usuarioCadastroRequestDTO,
             passwordEncoder.encode(usuarioCadastroRequestDTO.getSenha()));
+  }
+
+  private void validacoesUsuario(UsuarioCadastroRequestDTO usuarioCadastroRequestDTO) {
+    validacaoFormatoEmailETelefone(usuarioCadastroRequestDTO);
+    validarSeEmailJaCadastrado(usuarioCadastroRequestDTO.getEmail());
+    validarSeTelefoneJaCadastrado(usuarioCadastroRequestDTO.getTelefone());
   }
 }

@@ -15,13 +15,11 @@ public class ValidacaoObjetoUtil {
 
   public boolean verificarTodosCamposNulos(Object dados) {
     Field[] fields = dados.getClass().getDeclaredFields();
-    List<Field> fieldsObjeto =
-        new java.util.ArrayList<>(Arrays.stream(fields).collect(Collectors.toList()));
+    List<Field> fieldsObjeto = Arrays.stream(fields).collect(Collectors.toList());
 
     if (Objects.nonNull(dados.getClass().getSuperclass())) {
       List<Field> fieldsHeranca =
-          Arrays.stream(dados.getClass().getSuperclass().getDeclaredFields())
-              .collect(Collectors.toList());
+          Arrays.stream(dados.getClass().getSuperclass().getDeclaredFields()).toList();
       fieldsObjeto.addAll(fieldsHeranca);
     }
 

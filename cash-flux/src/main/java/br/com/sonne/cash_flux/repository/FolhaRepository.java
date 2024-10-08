@@ -1,7 +1,6 @@
 package br.com.sonne.cash_flux.repository;
 
 import br.com.sonne.cash_flux.domain.Folha;
-import br.com.sonne.cash_flux.shared.enums.Tipo;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,5 +14,5 @@ public interface FolhaRepository extends JpaRepository<Folha, UUID> {
 
   List<Folha> findByUsuarioId(UUID uuid);
 
-  List<Folha> findByTipoOrderByDataHoraAtualizacao(Tipo tipo);
+  List<Folha> findByTipoOrderByDataHoraAtualizacao(String tipo);
 }

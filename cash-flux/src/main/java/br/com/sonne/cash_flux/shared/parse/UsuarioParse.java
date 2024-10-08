@@ -1,16 +1,25 @@
 package br.com.sonne.cash_flux.shared.parse;
 
 import br.com.sonne.cash_flux.domain.Usuario;
+import br.com.sonne.cash_flux.shared.DTO.request.UsuarioAlterarRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.request.UsuarioCadastroRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.request.UsuarioRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.response.UsuarioResponseDTO;
 import br.com.sonne.cash_flux.shared.enums.Role;
 import br.com.sonne.cash_flux.shared.sample.Parse;
 import java.time.LocalDateTime;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UsuarioParse implements Parse<UsuarioRequestDTO, Usuario, UsuarioResponseDTO> {
-  @Override
-  public Usuario toEntity(UsuarioRequestDTO requestDTO) {
+  //    @Override
+  //    public Usuario toEntity(UsuarioRequestDTO requestDTO) {
+  //        Usuario usuario = new Usuario();
+  //        usuario.setSenha(requestDTO.getSenha());
+  //        return usuario;
+  //    }
+
+  public Usuario toEntityCadastro(UsuarioCadastroRequestDTO requestDTO) {
     Usuario usuario = new Usuario();
     usuario.setSenha(requestDTO.getSenha());
     return usuario;
@@ -53,6 +62,17 @@ public class UsuarioParse implements Parse<UsuarioRequestDTO, Usuario, UsuarioRe
       UsuarioCadastroRequestDTO usuarioCadastroRequestDTO, String senhaCriptografada) {
     Usuario usuario = usuarioCadastroRequestDTOToEntity(usuarioCadastroRequestDTO);
     usuario.setSenha(senhaCriptografada);
+    return usuario;
+  }
+
+  public Usuario alterarRequestToEntity(UsuarioAlterarRequestDTO requestDTO) {
+
+    Usuario usuario = new Usuario();
+    usuario.setId(requestDTO.getId());
+    usuario.setNome(requestDTO.getNome());
+    usuario.setSobrenome(requestDTO.getSobrenome());
+    usuario.setTelefone(requestDTO.getTelefone());
+    usuario.setEmail(requestDTO.getEmail());
     return usuario;
   }
 }

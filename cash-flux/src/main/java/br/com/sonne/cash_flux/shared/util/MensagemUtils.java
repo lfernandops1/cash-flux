@@ -31,13 +31,13 @@ public class MensagemUtils {
 
   public static <E extends Enum<E>> String getEnumLabel(IEnumLabel<E> e) {
     Locale locale = LocaleContextHolder.getLocale();
-    String messageKey = "enum." + e.getClass().getSimpleName() + "." + ((Enum) e).name();
+    String messageKey = "enum." + e.getClass().getSimpleName() + "." + ((Enum<?>) e).name();
     return MESSAGE_SOURCE.getMessage(messageKey, null, locale);
   }
 
   public static <E extends Enum<E>> String getEnumLabel(IEnumLabel<E> e, String... params) {
     Locale locale = LocaleContextHolder.getLocale();
-    String messageKey = "enum." + e.getClass().getSimpleName() + "." + ((Enum) e).name();
+    String messageKey = "enum." + e.getClass().getSimpleName() + "." + ((Enum<?>) e).name();
     return MESSAGE_SOURCE.getMessage(messageKey, params, locale);
   }
 }

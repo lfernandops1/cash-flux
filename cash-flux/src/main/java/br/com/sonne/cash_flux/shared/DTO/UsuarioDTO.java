@@ -8,7 +8,6 @@ import lombok.Data;
 public abstract class UsuarioDTO {
 
   private String email;
-  private String senha;
   private Role role;
   private String nome;
   private String sobrenome;

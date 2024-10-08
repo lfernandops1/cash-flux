@@ -1,10 +1,13 @@
 package br.com.sonne.cash_flux.shared.DTO.request;
 
 import br.com.sonne.cash_flux.shared.DTO.UsuarioDTO;
-import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class UsuarioRequestDTO extends UsuarioDTO {
 
-  @NotNull private UUID id;
+  private UUID id;
 }

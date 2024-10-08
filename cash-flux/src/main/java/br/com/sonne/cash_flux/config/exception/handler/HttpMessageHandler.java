@@ -72,6 +72,7 @@ public class HttpMessageHandler {
     }
 
     if (ex.getCause() instanceof NumberFormatException) {
+      assert ex instanceof MethodArgumentTypeMismatchException;
       mensagem =
           format(
               MensagemUtils.getMensagem(("Campo.invalido")),

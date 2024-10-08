@@ -3,6 +3,7 @@ package br.com.sonne.cash_flux.service;
 import br.com.sonne.cash_flux.domain.Usuario;
 import br.com.sonne.cash_flux.shared.DTO.request.UsuarioCadastroRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.response.UsuarioResponseDTO;
+import java.util.UUID;
 
 public interface UsuarioService {
 
@@ -14,8 +15,9 @@ public interface UsuarioService {
 
   Usuario consultarPorEmail(String email);
 
-  // Usuario obterUsuarioLogado();
+  Usuario consultarUsuarioPorId(UUID uuid);
 
-  // Usuario consultarPorEmail(String email);
+  Usuario atualizar(Usuario usuario, UUID id);
 
+  void alterarSenhaUsuario(String senha);
 }

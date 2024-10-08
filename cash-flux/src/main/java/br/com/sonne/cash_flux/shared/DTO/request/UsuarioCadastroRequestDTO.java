@@ -13,5 +13,6 @@ public class UsuarioCadastroRequestDTO extends UsuarioDTO {
   private String sobrenome;
   private String email;
   private String telefone;
+  private String senha;
   private Role role;
 }

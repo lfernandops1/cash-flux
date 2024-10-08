@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ValidacaoMetodoHandler {
 
-  private final String caminhoCampoProperties = ".campo.generico";
   private final char separadorNodes = '.';
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -107,7 +106,7 @@ public class ValidacaoMetodoHandler {
       String caminhoCampo =
           validacaoDTO.getCodes()[0].substring(
               validacaoDTO.getCodes()[0].lastIndexOf(separadorNodes));
-      String nomeCampo = caminhoCampo.substring(1, caminhoCampo.length());
+      String nomeCampo = caminhoCampo.substring(1);
 
       boolean possuiLista = validacaoDTO.getCodes()[0].contains(identificadorListas);
       boolean possuiObjetosEmCastata =
@@ -126,6 +125,7 @@ public class ValidacaoMetodoHandler {
 
       ErroDTO erro = new ErroDTO();
       erro.setCodigo(EValidacao.ENTRADA_DE_DADOS_INVALIDA.getCodigo());
+      String caminhoCampoProperties = ".campo.generico";
       String mensagemProperties =
           obterMensagem(validacaoDTO.getCodes()[0], caminhoCampoProperties, caminhoCampo);
       adicionarErro(erros, erro, format(mensagemProperties, nomeCampo));

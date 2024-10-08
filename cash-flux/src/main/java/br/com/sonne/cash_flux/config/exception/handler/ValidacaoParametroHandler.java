@@ -9,7 +9,6 @@ import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
@@ -34,8 +33,7 @@ public class ValidacaoParametroHandler {
     Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
     Set<ErroDTO> erros = new HashSet<>(constraintViolations.size());
 
-    erros.addAll(
-        constraintViolations.stream().map(this::criarChaveMensagem).collect(Collectors.toList()));
+    erros.addAll(constraintViolations.stream().map(this::criarChaveMensagem).toList());
 
     return ErrosDTO.builder().erros(new ArrayList<>(erros)).build();
   }
@@ -53,13 +51,14 @@ public class ValidacaoParametroHandler {
 
     if (nomeParametro.contains("[")) {
       mensagem =
-          MensagemUtils.getMensagem(
+          br.com.sonne.cash_flux.shared.util.MensagemUtils.getMensagem(
               error + nomeParametro.substring(nomeParametro.lastIndexOf(".")));
       return ErroDTO.builder().codigo(codigo).mensagem(mensagem).build();
     }
 
     mensagem =
-        MensagemUtils.getMensagem(error + nomeParametro.substring(nomeParametro.indexOf(".")));
+        br.com.sonne.cash_flux.shared.util.MensagemUtils.getMensagem(
+            error + nomeParametro.substring(nomeParametro.indexOf(".")));
 
     log.warn(mensagem);
     return ErroDTO.builder().codigo(codigo).mensagem(mensagem).build();

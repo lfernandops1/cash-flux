@@ -4,7 +4,6 @@ import br.com.sonne.cash_flux.domain.Folha;
 import br.com.sonne.cash_flux.service.FolhaService;
 import br.com.sonne.cash_flux.shared.DTO.request.FolhaRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.response.FolhaResponseDTO;
-import br.com.sonne.cash_flux.shared.enums.Tipo;
 import br.com.sonne.cash_flux.shared.parse.FolhaParse;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -40,7 +39,7 @@ public class FolhaController {
   }
 
   @GetMapping("/usuario/tipo/{tipo}")
-  public ResponseEntity<List<Folha>> listarPorTipo(@PathVariable("tipo") Tipo tipo) {
+  public ResponseEntity<List<Folha>> listarPorTipo(@PathVariable("tipo") String tipo) {
     List<Folha> folhas = folhaService.listarPorTipo(tipo);
     return ResponseEntity.ok((folhas));
   }

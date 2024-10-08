@@ -36,8 +36,8 @@ public class AutenticacaoServiceImpl implements UserDetailsService {
 
   public ResponseEntity<Object> login(@RequestBody @Valid AutenticacaoDTO data) {
     authenticationManager = context.getBean(AuthenticationManager.class);
-
-    var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.senha());
+    var usernamePassword =
+        new UsernamePasswordAuthenticationToken(data.getEmail(), data.getSenha());
     var auth = this.authenticationManager.authenticate(usernamePassword);
     var token = tokenService.generateToken((Usuario) auth.getPrincipal());
     return ResponseEntity.ok(new LoginResponseDTO(token));

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 public abstract class ExceptionAbstract extends RuntimeException {
 
-  private EValidacao validacao;
+  private final EValidacao validacao;
   @Getter private String[] params;
 
   public Integer getCodigo() {

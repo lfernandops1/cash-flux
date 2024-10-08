@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class CashFluxRuntimeException extends RuntimeException {
-  private String descricao;
+  private final String descricao;
 
   public CashFluxRuntimeException(String msg) {
     super(msg);

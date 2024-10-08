@@ -1,3 +1,13 @@
 package br.com.sonne.cash_flux.shared.DTO;
 
-public record AutenticacaoDTO(String email, String senha) {}
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class AutenticacaoDTO {
+
+  private String email;
+  private String senha;
+  private Boolean ativo;
+}

@@ -15,9 +15,9 @@ public interface GastoService {
 
   Gasto buscarGastoPorId(UUID id);
 
-  List<Gasto> listarGastos();
+  List<Gasto> listarTodosGastosAvulsos();
 
-  Gasto atualizarGasto(UUID id, Gasto gastoAtualizado);
+  Gasto atualizarGasto(Gasto gastoAtualizado, UUID id);
 
   void atualizarGastosEmFolha(FolhaRequestDTO folhaDTO, Folha folha);
 

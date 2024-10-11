@@ -2,6 +2,7 @@ package br.com.sonne.cash_flux.controller;
 
 import br.com.sonne.cash_flux.domain.Gasto;
 import br.com.sonne.cash_flux.service.GastoService;
+import br.com.sonne.cash_flux.shared.DTO.request.GastoAlterarRequest;
 import br.com.sonne.cash_flux.shared.DTO.request.GastoRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.response.GastoResponseDTO;
 import br.com.sonne.cash_flux.shared.parse.GastoParse;
@@ -32,22 +33,23 @@ public class GastoController {
     return new ResponseEntity<>(gastoParse.toResponse(gasto), HttpStatus.CREATED);
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/buscar/{id}")
   public ResponseEntity<Gasto> buscarGastoPorId(@PathVariable UUID id) {
     Gasto gasto = gastoService.buscarGastoPorId(id);
     return new ResponseEntity<>(gasto, HttpStatus.OK);
   }
 
-  @GetMapping
-  public ResponseEntity<List<Gasto>> listarGastos() {
-    List<Gasto> gastos = gastoService.listarGastos();
+  @GetMapping("/buscar")
+  public ResponseEntity<List<Gasto>> listarTodosGastosAvulsos() {
+    List<Gasto> gastos = gastoService.listarTodosGastosAvulsos();
     return new ResponseEntity<>(gastos, HttpStatus.OK);
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<Gasto> atualizarGasto(
-      @PathVariable UUID id, @RequestBody Gasto gastoAtualizado) {
-    Gasto gasto = gastoService.atualizarGasto(id, gastoAtualizado);
-    return new ResponseEntity<>(gasto, HttpStatus.OK);
+  @PutMapping("/atualizar/{id}")
+  public ResponseEntity<GastoResponseDTO> atualizarGasto(
+      @Valid @RequestBody GastoAlterarRequest gastoAlterarRequest, @PathVariable UUID id) {
+    Gasto gastoAlterado =
+        gastoService.atualizarGasto(gastoParse.alterarRequestToEntity(gastoAlterarRequest), id);
+    return new ResponseEntity<>(gastoParse.toResponse(gastoAlterado), HttpStatus.OK);
   }
 }

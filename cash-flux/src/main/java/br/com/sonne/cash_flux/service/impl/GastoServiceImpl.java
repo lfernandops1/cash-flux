@@ -3,7 +3,6 @@ package br.com.sonne.cash_flux.service.impl;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoErroComMensagem;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoSemRetornoComMensagem;
 
-import br.com.sonne.cash_flux.config.exception.CashFluxRuntimeException;
 import br.com.sonne.cash_flux.domain.Folha;
 import br.com.sonne.cash_flux.domain.Gasto;
 import br.com.sonne.cash_flux.repository.GastoRepository;
@@ -12,6 +11,7 @@ import br.com.sonne.cash_flux.service.UsuarioService;
 import br.com.sonne.cash_flux.shared.DTO.FolhaDTO;
 import br.com.sonne.cash_flux.shared.DTO.request.FolhaRequestDTO;
 import br.com.sonne.cash_flux.shared.enums.Tipo;
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -41,8 +41,8 @@ public class GastoServiceImpl implements GastoService {
   }
 
   @Override
-  public List<Gasto> listarGastos() {
-    return gastoRepository.findAll();
+  public List<Gasto> listarTodosGastosAvulsos() {
+    return gastoRepository.findByFolhaIdIsNull();
   }
 
   @Override
@@ -80,40 +80,47 @@ public class GastoServiceImpl implements GastoService {
   }
 
   @Override
-  public Gasto atualizarGasto(UUID id, Gasto gastoAtualizado) {
-    if (!gastoRepository.existsById(id)) {
-      throw new CashFluxRuntimeException("Gasto não encontrado com o ID: " + id);
+  public Gasto atualizarGasto(Gasto gasto, UUID id) {
+    Gasto gastoExistente =
+        gastoRepository
+            .findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Gasto não encontrado"));
+
+    // Verifica se o id da folha do gasto existente é diferente de null
+    if (gastoExistente.getFolha() != null) {
+      throw new IllegalArgumentException(
+          "Não é permitido atualizar gastos associados a uma folha.");
     }
-    gastoAtualizado.setId(id);
-    return gastoRepository.save(gastoAtualizado);
+
+    // Atualiza os atributos do gasto
+    gastoExistente.setDescricao(gasto.getDescricao());
+    gastoExistente.setValor(gasto.getValor());
+    gastoExistente.setCategoria(gasto.getCategoria());
+    gastoExistente.setTipo(gasto.getTipo());
+    // gastoExistente.setFolha(gasto.getFolha());
+
+    // Salva o gasto atualizado
+    return gastoRepository.save(gastoExistente);
   }
 
   public void atualizarGastosEmFolha(FolhaRequestDTO folhaDTO, Folha folha) {
-    // Obtemos os gastos existentes da folha
     List<Gasto> gastosExistentes = folha.getGastos();
-
-    // Cria um mapa para facilitar a busca dos gastos existentes
     Map<UUID, Gasto> mapaGastosExistentes =
         gastosExistentes.stream().collect(Collectors.toMap(Gasto::getId, gasto -> gasto));
-
-    // Atualiza ou mantém os gastos existentes
     for (Gasto gastoDTO : folhaDTO.getGastos()) {
       Optional<Gasto> gastoExistenteOpt =
           Optional.ofNullable(mapaGastosExistentes.get(gastoDTO.getId()));
-
       if (gastoExistenteOpt.isPresent()) {
-        // Se o gasto já existe, verifica se houve alteração
         Gasto gastoExistente = gastoExistenteOpt.get();
         if (atualizarGastoSeNecessario(gastoExistente, gastoDTO)) {
           gastoRepository.save(gastoExistente);
         }
       } else {
-        // Se o gasto não existe, cria um novo
+
         criarGasto(folha, gastoDTO);
       }
     }
 
-    // Remove gastos que não estão mais na DTO
     removerGastosNaoCorrespondentes(gastosExistentes, folhaDTO.getGastos());
   }
 
@@ -152,22 +159,17 @@ public class GastoServiceImpl implements GastoService {
     novoGasto.setDataHoraAtualizacao(LocalDateTime.now());
     novoGasto.setDataHoraCriacao(LocalDateTime.now());
     novoGasto.setTipo(Tipo.MENSAL.getDescricao());
-
-    // Salva o novo gasto no repositório
     gastoRepository.save(novoGasto);
   }
 
   private void removerGastosNaoCorrespondentes(
       List<Gasto> gastosExistentes, List<Gasto> novosGastos) {
     Set<UUID> novosGastosIds =
-        novosGastos.stream()
-            .map(Gasto::getId)
-            .filter(Objects::nonNull) // Filtra IDs não nulos
-            .collect(Collectors.toSet());
+        novosGastos.stream().map(Gasto::getId).filter(Objects::nonNull).collect(Collectors.toSet());
 
     for (Gasto gastoExistente : gastosExistentes) {
       if (!novosGastosIds.contains(gastoExistente.getId())) {
-        gastoRepository.delete(gastoExistente); // Remove se não houver correspondência
+        gastoRepository.delete(gastoExistente);
       }
     }
   }

@@ -1,9 +1,11 @@
 package br.com.sonne.cash_flux.shared.parse;
 
 import br.com.sonne.cash_flux.domain.Gasto;
+import br.com.sonne.cash_flux.shared.DTO.request.GastoAlterarRequest;
 import br.com.sonne.cash_flux.shared.DTO.request.GastoRequestDTO;
 import br.com.sonne.cash_flux.shared.DTO.response.GastoResponseDTO;
 import br.com.sonne.cash_flux.shared.sample.Parse;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -37,6 +39,16 @@ public class GastoParse implements Parse<GastoRequestDTO, Gasto, GastoResponseDT
   private Gasto retornarGastos(GastoResponseDTO responseDTO) {
     Gasto gasto = new Gasto();
     gasto.setId(responseDTO.getId());
+    return gasto;
+  }
+
+  public Gasto alterarRequestToEntity(GastoAlterarRequest request) {
+    Gasto gasto = new Gasto();
+    gasto.setDescricao(request.getDescricao());
+    gasto.setValor(request.getValor());
+    gasto.setCategoria(request.getCategoria());
+    gasto.setTipo(request.getTipo());
+    gasto.setDataHoraAtualizacao(LocalDateTime.now());
     return gasto;
   }
 }

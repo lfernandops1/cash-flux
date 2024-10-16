@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.config.security;
 
+import static br.com.sonne.cash_flux.shared.Constantes.ROTAS.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,33 +32,33 @@ public class SecurityConfigurations {
         .authorizeHttpRequests(
             authorize ->
                 authorize
-                    .requestMatchers("api/gastos/criar")
+                    .requestMatchers(API_GASTOS + CRIAR)
                     .authenticated()
-                    .requestMatchers("api/folhas/criar")
+                    .requestMatchers(API_FOLHAS + CRIAR)
                     .authenticated()
-                    .requestMatchers("api/folhas/usuario")
+                    .requestMatchers(API_FOLHAS + USUARIO)
                     .authenticated()
-                    .requestMatchers("api/folhas/usuario/filtrar")
+                    .requestMatchers(API_FOLHAS + FILTRAR_USUARIO)
                     .authenticated()
-                    .requestMatchers("api/usuarios/atualizar")
+                    .requestMatchers(API_USUARIOS + ATUALIZAR_POR_ID)
                     .authenticated()
-                    .requestMatchers("api/usuarios/senha")
+                    .requestMatchers(API_USUARIOS + SENHA)
                     .authenticated()
-                    .requestMatchers("api/folhas/alterar/folha/{id}")
+                    .requestMatchers(API_FOLHAS + ALTERAR_FOLHA_POR_ID)
                     .authenticated()
-                    .requestMatchers("api/folhas/excluir/folha/{id}")
+                    .requestMatchers(API_FOLHAS + EXCLUIR_FOLHA_POR_ID)
                     .authenticated()
-                    .requestMatchers("api/folhas/buscar/folha/{id}")
+                    .requestMatchers(API_FOLHAS + BUSCAR_FOLHA_POR_ID)
                     .authenticated()
-                    .requestMatchers("api/gastos/buscar/{id}")
+                    .requestMatchers(API_GASTOS + BUSCAR_POR_ID)
                     .authenticated()
-                    .requestMatchers("api/gastos/buscar")
+                    .requestMatchers(API_GASTOS + BUSCAR)
                     .authenticated()
-                    .requestMatchers("api/gastos/atualizar/{id}")
+                    .requestMatchers(API_GASTOS + ATUALIZAR_POR_ID)
                     .authenticated()
-                    .requestMatchers(HttpMethod.POST, "/autenticar/login")
+                    .requestMatchers(HttpMethod.POST, API_AUTENTICAR + LOGIN)
                     .permitAll()
-                    .requestMatchers("usuarios/criar")
+                    .requestMatchers(API_USUARIOS + CRIAR)
                     .permitAll()
                     .anyRequest()
                     .permitAll())

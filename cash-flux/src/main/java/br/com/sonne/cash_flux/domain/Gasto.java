@@ -43,7 +43,7 @@ public class Gasto {
   private LocalDateTime dataHoraCriacao;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = DATA_HORA_CRIACAO)
+  @Column(name = DATA_HORA_ATUALIZACAO)
   private LocalDateTime dataHoraAtualizacao;
 
   @Temporal(TemporalType.TIMESTAMP)

@@ -103,20 +103,40 @@ public class FolhaServiceImpl implements FolhaService {
   }
 
   public Folha alterarFolha(UUID id, FolhaRequestDTO folhaDTO) {
-
     Folha folhaExistente =
         folhaRepository
             .findById(id)
             .orElseThrow(() -> new EntityNotFoundException(FOLHA_NAO_ENCONTRADA));
 
-    folhaExistente.setTipo(folhaDTO.getTipo());
-    folhaExistente.setMes(
-        folhaExistente.getTipo().equals(Tipo.FOLHA_AVULSA.getDescricao())
-            ? null
-            : folhaDTO.getMes());
-    folhaExistente.setDescricao(folhaDTO.getDescricao());
-    folhaExistente.setDataHoraAtualizacao(LocalDateTime.now());
-    folhaRepository.save(folhaExistente);
+    boolean folhaAlterada = false;
+
+    if (!folhaExistente.getTipo().equals(folhaDTO.getTipo())) {
+      folhaExistente.setTipo(folhaDTO.getTipo());
+      folhaAlterada = true;
+    }
+
+    if (!folhaExistente
+        .getMes()
+        .equals(
+            folhaExistente.getTipo().equals(Tipo.FOLHA_AVULSA.getDescricao())
+                ? null
+                : folhaDTO.getMes())) {
+      folhaExistente.setMes(
+          folhaExistente.getTipo().equals(Tipo.FOLHA_AVULSA.getDescricao())
+              ? null
+              : folhaDTO.getMes());
+      folhaAlterada = true;
+    }
+
+    if (!folhaExistente.getDescricao().equals(folhaDTO.getDescricao())) {
+      folhaExistente.setDescricao(folhaDTO.getDescricao());
+      folhaAlterada = true;
+    }
+
+    if (folhaAlterada) {
+      folhaExistente.setDataHoraAtualizacao(LocalDateTime.now());
+      folhaRepository.save(folhaExistente);
+    }
 
     gastoService.atualizarGastosEmFolha(folhaDTO, folhaExistente);
 

@@ -94,6 +94,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     executarComandoComTratamentoSemRetorno(
         () -> {
           Usuario usuario = obterUsuarioLogado();
+          assert usuario != null;
           usuario.setSenha(passwordEncoder.encode(senha));
           usuarioRepository.save(usuario);
         });

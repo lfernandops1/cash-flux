@@ -6,7 +6,7 @@ public interface Constantes {
     String caracters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
     String SEM_DESCRICAO = "SEM DESCRIÇÃO";
-    String ESPACO_VAZIO = " ";
+    String ESPACO_VAZIO = "";
     String GET = "get";
   }
 
@@ -49,6 +49,8 @@ public interface Constantes {
     String TABELA_USUARIOS = "usuarios";
     String TABELA_FOLHAS = "folhas";
     String TABELA_GASTOS = "gastos";
+    String DESCRICAO = "descricao";
+    String CODIGO = "codigo";
   }
 
   interface ROTAS {

@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.domain;
 
+import static br.com.sonne.cash_flux.shared.Constantes.TABELA_COLUNAS.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +14,7 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 @Entity
-@Table(name = "gastos")
+@Table(name = TABELA_GASTOS)
 @NoArgsConstructor
 public class Gasto {
 
@@ -20,16 +22,16 @@ public class Gasto {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private UUID id;
 
-  @Column(name = "categoria")
+  @Column(name = CATEGORIA)
   private String categoria;
 
   @ManyToOne
-  @JoinColumn(name = "usuario_id")
+  @JoinColumn(name = USUARIO_ID)
   @JsonIgnore
   private Usuario usuario;
 
   @ManyToOne
-  @JoinColumn(name = "folha_id")
+  @JoinColumn(name = FOLHA_ID)
   @JsonIgnore
   private Folha folha;
 
@@ -37,18 +39,18 @@ public class Gasto {
   private Double valor;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_criacao", nullable = false)
+  @Column(name = DATA_HORA_CRIACAO, nullable = false)
   private LocalDateTime dataHoraCriacao;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_atualizacao")
+  @Column(name = DATA_HORA_CRIACAO)
   private LocalDateTime dataHoraAtualizacao;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_exclusao")
+  @Column(name = DATA_HORA_EXCLUSAO)
   private LocalDateTime dataHoraExclusao;
 
-  @Column(name = "tipo")
+  @Column(name = TIPO)
   private String tipo;
 
   @Override

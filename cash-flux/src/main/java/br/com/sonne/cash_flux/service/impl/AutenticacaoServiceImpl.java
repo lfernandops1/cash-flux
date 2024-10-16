@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.service.impl;
 
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.EMAIL_OU_SENHA_INVALIDO;
+
 import br.com.sonne.cash_flux.config.security.TokenService;
 import br.com.sonne.cash_flux.domain.Usuario;
 import br.com.sonne.cash_flux.repository.UsuarioRepository;
@@ -31,7 +33,7 @@ public class AutenticacaoServiceImpl implements UserDetailsService {
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     return usuarioRepository
         .findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("Email ou senha invalido."));
+        .orElseThrow(() -> new RuntimeException(EMAIL_OU_SENHA_INVALIDO));
   }
 
   public ResponseEntity<Object> login(@RequestBody @Valid AutenticacaoDTO data) {

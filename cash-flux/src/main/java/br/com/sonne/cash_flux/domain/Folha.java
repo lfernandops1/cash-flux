@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.domain;
 
+import static br.com.sonne.cash_flux.shared.Constantes.TABELA_COLUNAS.*;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -16,7 +18,7 @@ import org.hibernate.proxy.HibernateProxy;
 @Setter
 @RequiredArgsConstructor
 @Entity
-@Table(name = "folhas")
+@Table(name = TABELA_FOLHAS)
 public class Folha {
 
   @Id
@@ -25,31 +27,31 @@ public class Folha {
 
   private String descricao;
 
-  @Column(name = "mes")
+  @Column(name = MES)
   private String mes;
 
-  @OneToMany(mappedBy = "folha", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = FOLHA, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JsonBackReference
   private List<Gasto> gastos;
 
   @ManyToOne
-  @JoinColumn(name = "usuario_id")
+  @JoinColumn(name = USUARIO_ID)
   @JsonIgnore
   private Usuario usuario;
 
-  @Column(name = "tipo")
+  @Column(name = TIPO)
   private String tipo;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_criacao", nullable = false)
+  @Column(name = DATA_HORA_CRIACAO, nullable = false)
   private LocalDateTime dataHoraCriacao;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_atualizacao")
+  @Column(name = DATA_HORA_ATUALIZACAO)
   private LocalDateTime dataHoraAtualizacao;
 
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_exclusao")
+  @Column(name = DATA_HORA_EXCLUSAO)
   private LocalDateTime dataHoraExclusao;
 
   @Override

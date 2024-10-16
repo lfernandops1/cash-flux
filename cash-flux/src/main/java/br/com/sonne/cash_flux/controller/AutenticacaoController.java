@@ -1,5 +1,8 @@
 package br.com.sonne.cash_flux.controller;
 
+import static br.com.sonne.cash_flux.shared.Constantes.ROTAS.API_AUTENTICAR;
+import static br.com.sonne.cash_flux.shared.Constantes.ROTAS.LOGIN;
+
 import br.com.sonne.cash_flux.service.impl.AutenticacaoServiceImpl;
 import br.com.sonne.cash_flux.shared.DTO.AutenticacaoDTO;
 import jakarta.validation.Valid;
@@ -13,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/autenticar")
+@RequestMapping(API_AUTENTICAR)
 public class AutenticacaoController {
 
   private final Logger LOGGER = LoggerFactory.getLogger(AutenticacaoController.class);
@@ -24,7 +27,7 @@ public class AutenticacaoController {
     this.autenticacaoServiceImpl = autenticacaoServiceImpl;
   }
 
-  @PostMapping("/login")
+  @PostMapping(LOGIN)
   public ResponseEntity<Object> login(@RequestBody @Valid AutenticacaoDTO autenticacaoDTO) {
     return autenticacaoServiceImpl.login(autenticacaoDTO);
   }

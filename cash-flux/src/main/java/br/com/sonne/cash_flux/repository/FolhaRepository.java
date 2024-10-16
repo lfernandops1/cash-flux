@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.repository;
 
+import static br.com.sonne.cash_flux.shared.Constantes.Queries.QUERY_PROCURAR_POR_ID_USUARIO_E_DATA_HORA_EXCLUSAO_NULA;
+
 import br.com.sonne.cash_flux.domain.Folha;
 import java.util.List;
 import java.util.Optional;
@@ -16,12 +18,6 @@ public interface FolhaRepository
 
   Optional<Folha> findById(UUID uuid);
 
-  List<Folha> findByUsuarioId(UUID uuid);
-
-  @Query(
-      "SELECT f FROM Folha f WHERE f.usuario.id = :usuarioId AND f.dataHoraExclusao IS NULL "
-          + "ORDER BY CASE WHEN f.dataHoraAtualizacao IS NULL THEN f.dataHoraCriacao ELSE f.dataHoraAtualizacao END ASC")
+  @Query(QUERY_PROCURAR_POR_ID_USUARIO_E_DATA_HORA_EXCLUSAO_NULA)
   List<Folha> findByUsuarioIdAndDataHoraExclusaoIsNull(@Param("usuarioId") UUID usuarioId);
-
-  List<Folha> findByTipoOrderByDataHoraAtualizacao(String tipo);
 }

@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.domain;
 
+import static br.com.sonne.cash_flux.shared.Constantes.TABELA_COLUNAS.*;
+
 import br.com.sonne.cash_flux.shared.enums.Role;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -21,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Setter
 @ToString
 @RequiredArgsConstructor
-@Table(name = "usuarios")
+@Table(name = TABELA_USUARIOS)
 public class Usuario implements UserDetails {
 
   /** Identificador único do usuário. Gerado automaticamente usando UUID. */
@@ -51,7 +53,7 @@ public class Usuario implements UserDetails {
    * Lista de folhas associadas ao usuário. O relacionamento é unidirecional, com o usuário sendo o
    * "dono" da relação.
    */
-  @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = USUARIO, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @ToString.Exclude
   private List<Folha> folhas;
 
@@ -59,7 +61,7 @@ public class Usuario implements UserDetails {
    * Lista de gastos associados ao usuário. O relacionamento é unidirecional, com o usuário sendo o
    * "dono" da relação.
    */
-  @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+  @OneToMany(mappedBy = USUARIO, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
   @ToString.Exclude
   private List<Gasto> gastos;
 
@@ -76,12 +78,12 @@ public class Usuario implements UserDetails {
    * após a criação.
    */
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_criacao", nullable = false, updatable = false)
+  @Column(name = DATA_HORA_CRIACAO, nullable = false, updatable = false)
   private LocalDateTime dataHoraCriacao;
 
   /** Data e hora da última atualização do registro do usuário. Este campo pode ser nulo. */
   @Temporal(TemporalType.TIMESTAMP)
-  @Column(name = "data_hora_atualizacao", nullable = true)
+  @Column(name = DATA_HORA_ATUALIZACAO, nullable = true)
   private LocalDateTime dataHoraAtualizacao;
 
   /**

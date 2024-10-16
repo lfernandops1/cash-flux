@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.controller;
 
+import static br.com.sonne.cash_flux.shared.Constantes.ROTAS.*;
+
 import br.com.sonne.cash_flux.domain.Usuario;
 import br.com.sonne.cash_flux.service.UsuarioService;
 import br.com.sonne.cash_flux.shared.DTO.request.SenhaRequestDTO;
@@ -22,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
  * endpoints neste controlador.
  */
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping(API_USUARIOS)
 public class UsuarioController {
 
   @Autowired private UsuarioService usuarioService;
@@ -48,7 +50,7 @@ public class UsuarioController {
    * @return Um ResponseEntity contendo o DTO de resposta do usuário criado, junto com o status HTTP
    *     201 (CREATED). @PostMapping associa este método ao endpoint HTTP POST "/criar".
    */
-  @PostMapping("/criar")
+  @PostMapping(CRIAR)
   public ResponseEntity<UsuarioResponseDTO> criarUsuario(
       @RequestBody @Valid UsuarioCadastroRequestDTO usuarioCadastroRequestDTO) {
     return new ResponseEntity<>(
@@ -64,7 +66,7 @@ public class UsuarioController {
    * @return Um ResponseEntity sem corpo, indicando sucesso, com o status HTTP 204 (No
    *     Content). @PatchMapping associa este método ao endpoint HTTP PATCH "/senha".
    */
-  @PatchMapping(value = "/senha")
+  @PatchMapping(value = SENHA)
   public ResponseEntity<Void> alterarSenhaUsuario(
       @Valid @RequestBody SenhaRequestDTO senhaRequestDTO) {
     usuarioService.alterarSenhaUsuario(senhaRequestDTO.getSenha());
@@ -82,7 +84,7 @@ public class UsuarioController {
    * @return Um ResponseEntity contendo o DTO de resposta do usuário atualizado, com o status HTTP
    *     200 (OK). @PutMapping associa este método ao endpoint HTTP PUT "/atualizar/{id}".
    */
-  @PutMapping("/atualizar/{id}")
+  @PutMapping(ATUALIZAR_POR_ID)
   public ResponseEntity<UsuarioResponseDTO> atualizarUsuario(
       @Valid @RequestBody UsuarioAlterarRequestDTO usuarioAlterarRequestDTO,
       @PathVariable UUID id) {

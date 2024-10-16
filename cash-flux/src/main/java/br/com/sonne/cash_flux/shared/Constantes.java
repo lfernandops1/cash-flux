@@ -27,10 +27,51 @@ public interface Constantes {
     String ERRO_DURANTE_VERIFICACAO_CAMPOS =
         "Ocorreu um problema durante a verificação de campos "
             + "nulos dos dados da classe %s e do campo %s";
+    String ERRO_AO_CADASTRAR_GASTO_AVULSO = "Erro ao cadastrar gasto avulso";
   }
 
   interface PERMISSOES {
     String AUTHORIZATION = "Authorization";
     String BEARER = "Bearer ";
+  }
+
+  interface TABELA_COLUNAS {
+    String FOLHA_ID = "folha_id";
+    String DATA_HORA_CRIACAO = "data_hora_criacao";
+    String DATA_HORA_ATUALIZACAO = "data_hora_atualizacao";
+    String DATA_HORA_EXCLUSAO = "data_hora_exclusao";
+    String TIPO = "tipo";
+    String USUARIO = "usuario";
+    String USUARIO_ID = "usuario_id";
+    String FOLHA = "folha";
+    String MES = "mes";
+    String CATEGORIA = "categoria";
+    String TABELA_USUARIOS = "usuarios";
+    String TABELA_FOLHAS = "folhas";
+    String TABELA_GASTOS = "gastos";
+  }
+
+  interface ROTAS {
+    String LOGIN = "/login";
+    String API_AUTENTICAR = "/api/autenticar";
+    String API_FOLHAS = "/api/folhas";
+    String CRIAR = "/criar";
+    String USUARIO = "/usuario";
+    String FILTRAR_USUARIO = "/usuario/filtrar";
+    String BUSCAR_FOLHA_POR_ID = "buscar/folha/{id}";
+    String ALTERAR_FOLHA_POR_ID = "alterar/folha/{id}";
+    String EXCLUIR_FOLHA_POR_ID = "excluir/folha/{id}";
+    String BUSCAR_POR_ID = "/buscar/{id}";
+    String BUSCAR = "/buscar";
+    String ATUALIZAR_POR_ID = "/atualizar/{id}";
+    String SENHA = "/senha";
+    String API_USUARIOS = "/api/usuarios";
+    String API_GASTOS = "/api/gastos";
+  }
+
+  interface Queries {
+    String QUERY_PROCURAR_POR_ID_USUARIO_E_DATA_HORA_EXCLUSAO_NULA =
+        "SELECT f FROM Folha f WHERE f.usuario.id = :usuarioId AND f.dataHoraExclusao IS NULL "
+            + "ORDER BY CASE WHEN f.dataHoraAtualizacao IS NULL THEN f.dataHoraCriacao ELSE f.dataHoraAtualizacao END ASC";
   }
 }

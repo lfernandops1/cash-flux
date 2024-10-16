@@ -47,7 +47,7 @@ public class GastoServiceImpl implements GastoService {
   }
 
   @Override
-  public Gasto criarGastoAvulso(Gasto gastoRequestDTO) {
+  public Gasto criarGastoAvulso(Gasto gastoParam) {
     return executarComandoComTratamentoErroComMensagem(
         () -> {
           Gasto gasto = new Gasto();
@@ -55,11 +55,11 @@ public class GastoServiceImpl implements GastoService {
           gasto.setDataHoraCriacao(LocalDateTime.now());
           gasto.setDataHoraAtualizacao(LocalDateTime.now());
           gasto.setTipo(Tipo.GASTO_AVULSO.getDescricao().toUpperCase());
-          gasto.setValor(gastoRequestDTO.getValor());
-          gasto.setCategoria(gastoRequestDTO.getCategoria().toUpperCase());
+          gasto.setValor(gastoParam.getValor());
+          gasto.setCategoria(gastoParam.getCategoria().toUpperCase());
           return gastoRepository.save(gasto);
         },
-        "Erro ao cadastrar gasto avulso");
+        ERRO_AO_CADASTRAR_GASTO_AVULSO);
   }
 
   @Override
@@ -178,8 +178,8 @@ public class GastoServiceImpl implements GastoService {
         () -> {
           List<Gasto> gastos = gastoRepository.findByFolhaId(id);
           for (Gasto gasto : gastos) {
-            gasto.setDataHoraExclusao(LocalDateTime.now()); // Atualiza a data de exclusão
-            gastoRepository.save(gasto); // Salva o gasto atualizado
+            gasto.setDataHoraExclusao(LocalDateTime.now());
+            gastoRepository.save(gasto);
           }
         },
         ERRO_AO_EXCLUIR_GASTO_FOLHA);

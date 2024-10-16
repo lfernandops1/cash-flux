@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface GastoRepository extends JpaRepository<Gasto, UUID> {
 
-  List<Gasto> findByUsuarioId(UUID usuarioId);
-
   List<Gasto> findByFolhaId(UUID folhaId);
 
   List<Gasto> findByFolhaIdIsNull();

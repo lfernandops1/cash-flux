@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.shared.util;
 
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.ERRO_DURANTE_VERIFICACAO_CAMPOS;
+import static br.com.sonne.cash_flux.shared.Constantes.Util.GET;
 import static java.lang.String.format;
 
 import java.lang.reflect.Field;
@@ -25,10 +27,9 @@ public class ValidacaoObjetoUtil {
 
     for (Field f : fieldsObjeto) {
       try {
-        final String metodo = "get";
         String nomePropriedade =
             f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
-        Method nomeMetodo = dados.getClass().getMethod(metodo + nomePropriedade);
+        Method nomeMetodo = dados.getClass().getMethod(GET + nomePropriedade);
         Object valorPropriedade = nomeMetodo.invoke(dados);
 
         if (Objects.nonNull(valorPropriedade)) {
@@ -41,11 +42,7 @@ public class ValidacaoObjetoUtil {
         return false;
       } catch (Exception e) {
         log.error(
-            format(
-                "Ocorreu um problema durante a verificação de campos "
-                    + "nulos dos dados da classe %s e do campo %s",
-                dados.getClass().getName(), f.getName()),
-            e);
+            format(ERRO_DURANTE_VERIFICACAO_CAMPOS, dados.getClass().getName(), f.getName()), e);
         return false;
       }
     }

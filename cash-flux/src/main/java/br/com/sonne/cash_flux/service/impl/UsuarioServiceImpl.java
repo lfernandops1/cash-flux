@@ -1,6 +1,6 @@
 package br.com.sonne.cash_flux.service.impl;
 
-import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.ERRO_AO_ATUALIZAR_DADOS_USUARIO;
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.*;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.*;
 import static br.com.sonne.cash_flux.shared.util.SecurityUtil.obterUsuarioLogado;
 import static br.com.sonne.cash_flux.shared.util.ValidatorUsuarioUtil.validacaoFormatoEmailETelefone;
@@ -79,7 +79,9 @@ public class UsuarioServiceImpl implements UsuarioService {
   public UsuarioResponseDTO criarUsuario(UsuarioCadastroRequestDTO usuario) {
     validacoesUsuario(usuario);
     return executarComandoComTratamentoErroComMensagemComParseResource(
-        () -> usuarioRepository.save(obterUsuario(usuario)), "Erro", new UsuarioParse());
+        () -> usuarioRepository.save(obterUsuario(usuario)),
+        ERRO_AO_TENTAR_CRIAR_USUARIO,
+        new UsuarioParse());
   }
 
   /**
@@ -135,7 +137,7 @@ public class UsuarioServiceImpl implements UsuarioService {
           campo.set(destino, valor);
         }
       } catch (IllegalAccessException e) {
-        throw new RuntimeException("Erro ao acessar campo: " + campo.getName(), e);
+        throw new RuntimeException(ERRO_AO_ACESSAR_CAMPO + campo.getName(), e);
       }
     }
   }

@@ -1,5 +1,7 @@
 package br.com.sonne.cash_flux.service.impl;
 
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.ERRO_AO_EXCLUIR_FOLHA;
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.FOLHA_NAO_ENCONTRADA;
 import static br.com.sonne.cash_flux.shared.Constantes.Util.SEM_DESCRICAO;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoSemRetornoComMensagem;
 import static br.com.sonne.cash_flux.shared.util.SecurityUtil.obterUsuarioLogado;
@@ -41,7 +43,7 @@ public class FolhaServiceImpl implements FolhaService {
     folha =
         folhaRepository
             .findById(folha.getId())
-            .orElseThrow(() -> new EntityNotFoundException("Folha não encontrada"));
+            .orElseThrow(() -> new EntityNotFoundException(FOLHA_NAO_ENCONTRADA));
 
     return folha;
   }
@@ -92,12 +94,12 @@ public class FolhaServiceImpl implements FolhaService {
           Folha folhaExcluida =
               folhaRepository
                   .findById(id)
-                  .orElseThrow(() -> new EntityNotFoundException("Folha não encontrada"));
+                  .orElseThrow(() -> new EntityNotFoundException(FOLHA_NAO_ENCONTRADA));
           folhaExcluida.setDataHoraExclusao(LocalDateTime.now());
           folhaRepository.save(folhaExcluida);
           gastoService.excluirGastos(folhaExcluida.getId());
         },
-        "Erro ao excluir folha");
+        ERRO_AO_EXCLUIR_FOLHA);
   }
 
   public Folha alterarFolha(UUID id, FolhaRequestDTO folhaDTO) {
@@ -105,7 +107,7 @@ public class FolhaServiceImpl implements FolhaService {
     Folha folhaExistente =
         folhaRepository
             .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Folha não encontrada"));
+            .orElseThrow(() -> new EntityNotFoundException(FOLHA_NAO_ENCONTRADA));
 
     folhaExistente.setTipo(folhaDTO.getTipo());
     folhaExistente.setMes(

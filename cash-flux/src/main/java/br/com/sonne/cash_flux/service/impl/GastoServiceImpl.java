@@ -1,5 +1,6 @@
 package br.com.sonne.cash_flux.service.impl;
 
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.*;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoErroComMensagem;
 import static br.com.sonne.cash_flux.shared.util.ExecutarUtil.executarComandoComTratamentoSemRetornoComMensagem;
 
@@ -36,7 +37,7 @@ public class GastoServiceImpl implements GastoService {
     if (gasto.isPresent()) {
       return gasto.get();
     } else {
-      throw new RuntimeException("Gasto não encontrado com o ID: " + id);
+      throw new RuntimeException(GASTO_NAO_ENCONTRADO_COM_ID + id);
     }
   }
 
@@ -84,12 +85,9 @@ public class GastoServiceImpl implements GastoService {
     Gasto gastoExistente =
         gastoRepository
             .findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Gasto não encontrado"));
-
-    // Verifica se o id da folha do gasto existente é diferente de null
+            .orElseThrow(() -> new EntityNotFoundException(GASTO_NAO_ENCONTRADO));
     if (gastoExistente.getFolha() != null) {
-      throw new IllegalArgumentException(
-          "Não é permitido atualizar gastos associados a uma folha.");
+      throw new IllegalArgumentException(ERRO_AO_EXCLUIR_GASTO_ASSOCIADO_A_FOLHA);
     }
 
     // Atualiza os atributos do gasto
@@ -184,6 +182,6 @@ public class GastoServiceImpl implements GastoService {
             gastoRepository.save(gasto); // Salva o gasto atualizado
           }
         },
-        "Erro ao excluir gastos da folha");
+        ERRO_AO_EXCLUIR_GASTO_FOLHA);
   }
 }

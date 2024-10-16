@@ -1,5 +1,8 @@
 package br.com.sonne.cash_flux.shared.util;
 
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.EMAIL_INVALIDO;
+import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.TELEFONE_INVALIDO;
+
 import br.com.sonne.cash_flux.domain.Usuario;
 import br.com.sonne.cash_flux.shared.DTO.request.UsuarioCadastroRequestDTO;
 import java.util.regex.Pattern;
@@ -32,21 +35,21 @@ public class ValidatorUsuarioUtil {
   public static void validacaoFormatoEmailETelefone(
       UsuarioCadastroRequestDTO usuarioCadastroRequestDTO) {
     if (!validacaoEmail(usuarioCadastroRequestDTO.getEmail())) {
-      throw new IllegalArgumentException("Email inválido.");
+      throw new IllegalArgumentException(EMAIL_INVALIDO);
     }
 
     if (!validacaoTelefone(usuarioCadastroRequestDTO.getTelefone())) {
-      throw new IllegalArgumentException("Telefone inválido.");
+      throw new IllegalArgumentException(TELEFONE_INVALIDO);
     }
   }
 
   public static void validacaoFormatoEmailETelefoneParaAtualizar(Usuario usuario) {
     if (usuario.getEmail() != null && !validacaoEmail(usuario.getEmail())) {
-      throw new IllegalArgumentException("Email inválido.");
+      throw new IllegalArgumentException(EMAIL_INVALIDO);
     }
 
     if (usuario.getTelefone() != null && !validacaoTelefone(usuario.getTelefone())) {
-      throw new IllegalArgumentException("Telefone inválido.");
+      throw new IllegalArgumentException(TELEFONE_INVALIDO);
     }
   }
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
-  private final String secret = "segredinho";
+  private final String secret = "secret";
 
   public String generateToken(Usuario usuario) {
     try {

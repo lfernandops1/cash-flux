@@ -1,7 +1,7 @@
 package br.com.sonne.cash_flux.shared.util;
 
 import static br.com.sonne.cash_flux.shared.Constantes.Mensagens.ERRO_DURANTE_VERIFICACAO_CAMPOS;
-import static br.com.sonne.cash_flux.shared.Constantes.Util.GET;
+import static br.com.sonne.cash_flux.shared.Constantes.Web.GET;
 import static java.lang.String.format;
 
 import java.lang.reflect.Field;

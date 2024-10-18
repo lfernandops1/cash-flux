@@ -6,8 +6,22 @@ public interface Constantes {
     String caracters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+";
     String SEM_DESCRICAO = "SEM DESCRIÇÃO";
-    String ESPACO_VAZIO = "";
-    String GET = "get";
+    String STRING_VAZIA = "";
+
+    String GMT = "-03:00";
+    String ASTERISTICO = "*";
+    String BARRA_ALL = "/**";
+  }
+
+  interface Web {
+    String GET = "GET";
+    String PUT = "PUT";
+    String POST = "POST";
+    String DELETE = "DELETE";
+    String PATCH = "PATCH";
+    String OPTIONS = "OPTIONS";
+    String ENDERECO = "http://localhost:";
+    String PORTA_4200 = "4200";
   }
 
   interface Mensagens {
@@ -28,11 +42,14 @@ public interface Constantes {
         "Ocorreu um problema durante a verificação de campos "
             + "nulos dos dados da classe %s e do campo %s";
     String ERRO_AO_CADASTRAR_GASTO_AVULSO = "Erro ao cadastrar gasto avulso";
+    String ERRO_ENQUANTO_GERAVA_TOKEN_DE_ACESSO = "Erro durante a geraçãod o token de acesso";
   }
 
   interface PERMISSOES {
     String AUTHORIZATION = "Authorization";
     String BEARER = "Bearer ";
+    String AUTH = "auth";
+    String SEGREDO = "secret";
   }
 
   interface TABELA_COLUNAS {

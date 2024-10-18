@@ -2,7 +2,7 @@ package br.com.sonne.cash_flux.config.security;
 
 import static br.com.sonne.cash_flux.shared.Constantes.PERMISSOES.AUTHORIZATION;
 import static br.com.sonne.cash_flux.shared.Constantes.PERMISSOES.BEARER;
-import static br.com.sonne.cash_flux.shared.Constantes.Util.ESPACO_VAZIO;
+import static br.com.sonne.cash_flux.shared.Constantes.Util.STRING_VAZIA;
 
 import br.com.sonne.cash_flux.domain.Usuario;
 import br.com.sonne.cash_flux.repository.UsuarioRepository;
@@ -49,6 +49,6 @@ public class SecurityFilter extends OncePerRequestFilter {
   private String recoverToken(HttpServletRequest request) {
     var authHeader = request.getHeader(AUTHORIZATION);
     if (authHeader == null) return null;
-    return authHeader.replace(BEARER, ESPACO_VAZIO);
+    return authHeader.replace(BEARER, STRING_VAZIA);
   }
 }
